@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voz com IA - André</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Projeto de Voz com IA</h1>
+
+    <div class="module">
+        <h2>1. Gerador de Voz (Texto para Fala)</h2>
+        <p>Escolha uma voz, digite seu texto e gere um áudio com sotaque brasileiro.</p>
+        <div class="voice-selection" id="voice-options-container">
+            </div>
+        <div class="main-controls">
+            <textarea id="text-input" placeholder="Digite seu texto aqui..."></textarea>
+            <button id="generate-tts-btn">Gerar Voz</button>
+            <audio id="tts-audio-player" controls style="display:none;"></audio>
+        </div>
+    </div>
+
+    <div class="module">
+        <h2>2. Clonagem de Voz</h2>
+        <p>Envie um arquivo ou grave sua voz para criar um clone.</p>
+        <div class="input-options">
+            <label for="clone-upload" class="file-input-label">Enviar Arquivo</label>
+            <input type="file" id="clone-upload" style="display:none;" accept="audio/*">
+            <span>ou</span>
+            <button id="clone-mic-btn">Usar Microfone</button>
+        </div>
+        <p id="clone-status-message" style="color:#e74c3c;"></p>
+        <audio id="cloned-audio-player" controls style="display:none;"></audio>
+    </div>
+
+    <div class="module">
+        <h2>3. Modificador de Voz</h2>
+        <p>Modifique um arquivo de áudio ou a sua voz em tempo real.</p>
+        <div class="input-options">
+            <label for="modify-upload" class="file-input-label">Enviar Arquivo</label>
+            <input type="file" id="modify-upload" style="display:none;" accept="audio/*">
+            <span>ou</span>
+            <button id="modify-mic-btn">Usar Microfone</button>
+        </div>
+        <p id="modify-status-message" style="color:#e74c3c;"></p>
+        <audio id="modified-audio-player" controls style="display:none;"></audio>
+    </div>
+
+    <p id="global-status-message" style="text-align:center; font-weight:bold;"></p>
+</div>
+
+<script src="js/scripts.js"></script>
+
+</body>
+</html>
