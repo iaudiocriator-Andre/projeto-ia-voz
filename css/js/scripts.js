@@ -5,7 +5,7 @@ const voices = [
     { id: 'v_norte_br', name: 'Pedro', description: 'Voz masculina com sotaque do norte do Brasil.', audio: 'audio/sample_pedro.mp3' }
 ];
 
-const API_URL = 'https://70e00ed33b89.ngrok-free.app'; // SEU NOVO LINK DA API
+const API_URL = 'https://70e00ed33b89.ngrok-free.app'; // 🚨 LINK CORRIGIDO
 
 const voiceOptionsContainer = document.getElementById('voice-options-container');
 const ttsAudioPlayer = document.getElementById('tts-audio-player');
