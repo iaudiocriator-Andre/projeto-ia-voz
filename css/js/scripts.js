@@ -5,6 +5,8 @@ const voices = [
     { id: 'v_norte_br', name: 'Pedro', description: 'Voz masculina com sotaque do norte do Brasil.', audio: 'audio/sample_pedro.mp3' }
 ];
 
+const API_URL = 'https://df7cece15bdf.ngrok-free.app'; // SEU NOVO LINK DA API
+
 const voiceOptionsContainer = document.getElementById('voice-options-container');
 const ttsAudioPlayer = document.getElementById('tts-audio-player');
 const generateTtsBtn = document.getElementById('generate-tts-btn');
@@ -47,44 +49,67 @@ function renderVoices() {
     });
 }
 
-// Eventos para as funcionalidades
+// Evento para a funcionalidade de texto para fala
 generateTtsBtn.addEventListener('click', async () => {
     if (!selectedVoiceId) {
         globalStatusMessage.textContent = 'Por favor, selecione uma voz para continuar.';
         return;
     }
-    if (textInput.value.trim() === '') {
+    const text = textInput.value.trim();
+    if (text === '') {
         globalStatusMessage.textContent = 'Por favor, digite algum texto.';
         return;
     }
-    globalStatusMessage.textContent = `Voz selecionada: ${selectedVoiceId}. Texto: "${textInput.value}"`;
-    // FUTURO: CHAMADA PARA A API DO COLAB PARA TTS
+
+    globalStatusMessage.textContent = 'Gerando áudio...';
+    generateTtsBtn.disabled = true;
+
+    try {
+        const response = await fetch(`${API_URL}/generate_audio`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: text, voice_id: selectedVoiceId })
+        });
+
+        if (response.ok) {
+            const audioBlob = await response.blob();
+            const audioUrl = URL.createObjectURL(audioBlob);
+            ttsAudioPlayer.src = audioUrl;
+            ttsAudioPlayer.style.display = 'block';
+            ttsAudioPlayer.play();
+            globalStatusMessage.textContent = '✅ Áudio gerado com sucesso!';
+        } else {
+            const errorData = await response.json();
+            globalStatusMessage.textContent = `❌ Erro: ${errorData.error}`;
+        }
+    } catch (error) {
+        globalStatusMessage.textContent = `❌ Ocorreu um erro na conexão: ${error.message}`;
+    } finally {
+        generateTtsBtn.disabled = false;
+    }
 });
 
+// Eventos para as outras funcionalidades (ainda não implementadas)
 cloneUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
         cloneStatusMessage.textContent = `Arquivo "${file.name}" pronto para clonagem.`;
-        // FUTURO: CHAMADA PARA A API DO COLAB PARA CLONAGEM DE ARQUIVO
     }
 });
 
 cloneMicBtn.addEventListener('click', () => {
-    cloneStatusMessage.textContent = 'Aguardando permissão do microfone para clonar...';
-    // FUTURO: CÓDIGO PARA ACESSAR O MICROFONE E CHAMAR A API DO COLAB
+    cloneStatusMessage.textContent = 'Funcionalidade ainda não implementada.';
 });
 
 modifyUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
         modifyStatusMessage.textContent = `Arquivo "${file.name}" pronto para modificação.`;
-        // FUTURO: CHAMADA PARA A API DO COLAB PARA MODIFICAR ARQUIVO
     }
 });
 
 modifyMicBtn.addEventListener('click', () => {
-    modifyStatusMessage.textContent = 'Aguardando permissão do microfone para modificar...';
-    // FUTURO: CÓDIGO PARA ACESSAR O MICROFONE E CHAMAR A API DO COLAB
+    modifyStatusMessage.textContent = 'Funcionalidade ainda não implementada.';
 });
 
 document.addEventListener('DOMContentLoaded', renderVoices);
