@@ -1,8 +1,6 @@
 const voices = [
-    { id: 'v_feminina_br', name: 'Marina', description: 'Voz feminina natural e expressiva.', audio: 'audio/sample_marina.mp3' },
-    { id: 'v_masculina_br', name: 'Gustavo', description: 'Voz masculina profissional e forte.', audio: 'audio/sample_gustavo.mp3' },
-    { id: 'v_jovem_br', name: 'Leticia', description: 'Voz jovem e alegre, com sotaque carioca.', audio: 'audio/sample_leticia.mp3' },
-    { id: 'v_norte_br', name: 'Pedro', description: 'Voz masculina com sotaque do norte do Brasil.', audio: 'audio/sample_pedro.mp3' }
+    { id: 'v_feminina_br', name: 'Marina', description: 'Voz feminina natural e expressiva.', audio: 'audio/sample_Maria.ogg' },
+    { id: 'v_masculina_br', name: 'Gustavo', description: 'Voz masculina profissional e forte.', audio: 'audio/sample_Andre.ogg' }
 ];
 
 const API_URL = 'https://93b1dfb2f0b0.ngrok-free.app'; // 🚨 COLE O SEU NOVO LINK DA API AQUI
