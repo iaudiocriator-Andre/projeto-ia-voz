@@ -3,7 +3,7 @@ const voices = [
     { id: 'v_masculina_br', name: 'Gustavo', description: 'Voz masculina profissional e forte.', audio: 'audio/sample_Andre.ogg' }
 ];
 
-const API_URL = 'https://97d85926b39e.ngrok-free.app'; // 🚨 COLE O SEU NOVO LINK DA API AQUI
+const API_URL = 'https://0529e4f15d2a.ngrok-free.app'; // 🚨 COLE O SEU NOVO LINK DA API AQUI
 
 const voiceOptionsContainer = document.getElementById('voice-options-container');
 const ttsAudioPlayer = document.getElementById('tts-audio-player');
@@ -69,18 +69,36 @@ generateTtsBtn.addEventListener('click', async () => {
             body: JSON.stringify({ text: text, voice_id: selectedVoiceId })
         });
 
-        if (response.ok) {
-            const audioBlob = await response.blob();
-            const audioUrl = URL.createObjectURL(audioBlob);
-            ttsAudioPlayer.src = audioUrl;
-            ttsAudioPlayer.style.display = 'block';
-            ttsAudioPlayer.play();
-            globalStatusMessage.textContent = '✅ Áudio gerado com sucesso!';
-        } else {
-            const errorData = await response.json();
-            globalStatusMessage.textContent = `❌ Erro: ${errorData.error}`;
+        if (!response.ok) {
+            let errMsg = `Status ${response.status}`;
+            try {
+                const j = await response.json();
+                errMsg += ` — ${j.error || JSON.stringify(j)}`;
+            } catch (e) {
+                const txt = await response.text();
+                errMsg += ` — ${txt}`;
+            }
+            globalStatusMessage.textContent = `❌ Erro: ${errMsg}`;
+            console.error("Erro na API:", errMsg);
+            return;
         }
+
+        const contentType = response.headers.get('content-type') || '';
+        if (!contentType.includes('audio')) {
+            const text = await response.text();
+            globalStatusMessage.textContent = `❌ Resposta inesperada do servidor: ${text}`;
+            console.error("Resposta sem audio:", text);
+            return;
+        }
+
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+        ttsAudioPlayer.src = audioUrl;
+        ttsAudioPlayer.style.display = 'block';
+        await ttsAudioPlayer.play();
+        globalStatusMessage.textContent = '✅ Áudio gerado com sucesso!';
     } catch (error) {
+        console.error(error);
         globalStatusMessage.textContent = `❌ Ocorreu um erro na conexão: ${error.message}`;
     } finally {
         generateTtsBtn.disabled = false;
