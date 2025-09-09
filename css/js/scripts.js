@@ -3,7 +3,7 @@ const voices = [
     { id: 'v_masculina_br', name: 'Gustavo', description: 'Voz masculina profissional e forte.', audio: 'audio/sample_Andre.ogg' }
 ];
 
-const API_URL = 'https://cebf8eb11a45.ngrok-free.app'; // 🚨 COLE O SEU NOVO LINK DA API AQUI
+const API_URL = 'SUA_URL_DO_NGROK'; // 🚨 COLE O SEU NOVO LINK DA API AQUI
 
 const voiceOptionsContainer = document.getElementById('voice-options-container');
 const ttsAudioPlayer = document.getElementById('tts-audio-player');
@@ -63,7 +63,12 @@ generateTtsBtn.addEventListener('click', async () => {
     generateTtsBtn.disabled = true;
 
     try {
-        const response = await fetch(`${API_URL}/generate_audio`, {
+        let apiUrl = API_URL;
+        if (!apiUrl.endsWith('/')) {
+            apiUrl += '/';
+        }
+
+        const response = await fetch(`${apiUrl}generate_audio`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: text, voice_id: selectedVoiceId })
