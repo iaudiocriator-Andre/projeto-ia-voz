@@ -3,7 +3,7 @@ const voices = [
     { id: 'v_masculina_br', name: 'Gustavo', description: 'Voz masculina profissional e forte.', audio: 'audio/sample_Andre.ogg' }
 ];
 
-const API_URL = 'https://cebf8eb11a45.ngrok-free.app'; // 🚨 COLE O SEU NOVO LINK DA API AQUI
+const API_URL = 'https://cebf8eb11a45.ngrok-free.app/'; // 🚨 COLE O SEU NOVO LINK DA API AQUI
 
 const voiceOptionsContainer = document.getElementById('voice-options-container');
 const ttsAudioPlayer = document.getElementById('tts-audio-player');
